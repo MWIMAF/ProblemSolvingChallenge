@@ -4,32 +4,54 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Movement")]
-    public float xForce;
-    public float yForce;
+    [SerializeField]
+    public float Speed;
 
     private Rigidbody2D rig;
+    public float yBoundary = 6.5f;
+    public float xBoundary = 2.5f;
+
+    public KeyCode upButton = KeyCode.W;
+    public KeyCode leftButton = KeyCode.A;
+    public KeyCode downButton = KeyCode.S;
+    public KeyCode rightButton = KeyCode.D;
 
     private void Start()
     {
         rig = GetComponent<Rigidbody2D>();
 
-        PushBall();
     }
 
-
-    void PushBall()
+    private void Update()
     {
-        float randomDirection = Random.Range(0, 2);
+        Vector2 velocity = rig.velocity;
 
-        if (randomDirection < 1.0f)
+        if (Input.GetKey(upButton))
         {
-            rig.AddForce(new Vector2(xForce, yForce));
+            velocity.y = Speed;
+        }
+        else if (Input.GetKey(downButton))
+        {
+            velocity.y = -Speed;
         }
         else
         {
-
-            rig.AddForce(new Vector2(-xForce, yForce));
+            velocity.y = 0.0f;
         }
+
+        if (Input.GetKey(rightButton))
+        {
+            velocity.x = Speed;
+        }
+        else if (Input.GetKey(leftButton))
+        {
+            velocity.x = -Speed;
+        }
+        else
+        {
+            velocity.x = 0.0f;
+        }
+
+        rig.velocity = velocity;
     }
 }
