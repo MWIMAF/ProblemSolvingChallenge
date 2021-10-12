@@ -5,25 +5,31 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
-    public float moveAccel;
-
+    public float xForce;
+    public float yForce;
 
     private Rigidbody2D rig;
-    private Vector2 velocity;
 
     private void Start()
     {
         rig = GetComponent<Rigidbody2D>();
 
-        velocity = new Vector2(moveAccel, 0);
-
+        PushBall();
     }
 
-    private void FixedUpdate()
+
+    void PushBall()
     {
+        float randomDirection = Random.Range(0, 2);
 
+        if (randomDirection < 1.0f)
+        {
+            rig.AddForce(new Vector2(xForce, yForce));
+        }
+        else
+        {
 
-        rig.MovePosition(rig.position + velocity * Time.fixedDeltaTime);
-
+            rig.AddForce(new Vector2(-xForce, yForce));
+        }
     }
 }
