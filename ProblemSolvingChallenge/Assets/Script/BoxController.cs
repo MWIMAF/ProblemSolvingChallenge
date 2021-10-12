@@ -7,10 +7,9 @@ public class BoxController : MonoBehaviour
     [SerializeField]
     public GameObject[] boxPrefabs;
     public GameObject[] box;
+    public double gainScore;
 
-
-
-
+    public GameManager gameManager;
 
     private void Start()
     {
@@ -41,5 +40,17 @@ public class BoxController : MonoBehaviour
                 isBoxSpawned = true;
             }
         }
+    }
+    public void AddScore()
+    {
+        double value = 0;
+        value += gainScore;
+        gameManager.ScoreIncrement(value);
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Destroy(collision.gameObject);
+        AddScore();
+
     }
 }
