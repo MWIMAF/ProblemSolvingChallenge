@@ -10,13 +10,14 @@ public class BoxController : MonoBehaviour
     public double gainScore;
 
     public GameManager gameManager;
+    public float spawnTime = 3.0f;
 
     private void Start()
     {
-        SpawnBox();
+        StartSpawnBox();
     }
 
-    private void SpawnBox()
+    private void StartSpawnBox()
     {
         bool isBoxSpawned = false;
         int totalBox = Random.Range(0, 5);
@@ -41,6 +42,17 @@ public class BoxController : MonoBehaviour
             }
         }
     }
+        void SpawnBox()
+    {
+        Vector3 BoxPosition = new Vector3(Random.Range(-4f, 4f), Random.Range(-3.5f, 3.5f), 0);
+        int randomBox = Random.Range(0, 6);
+
+        if ((BoxPosition - transform.position).magnitude > 3)
+        {
+            Instantiate(boxPrefabs[randomBox], BoxPosition, Quaternion.identity);
+        }
+    }
+
     public void AddScore()
     {
         double value = 0;
@@ -51,6 +63,8 @@ public class BoxController : MonoBehaviour
     {
         Destroy(collision.gameObject);
         AddScore();
+
+        Invoke("SpawnBox", spawnTime);//Problem8
 
     }
 }
